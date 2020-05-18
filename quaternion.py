@@ -29,10 +29,12 @@ class Quaternion:
 		return Quaternion(na, nb, nc, nd)
 
 	def add(self, comp):
-		# na = self.a + comp.a
-		# nb = self.b + comp.b
+		na = self.a + comp.a
+		nb = self.b + comp.b
+		nc = self.c + comp.c
+		nd = self.d + comp.d
 
-		# return Complex(na, nb)
+		return Quaternion(na, nb, nc, nd)
 
 	def sub(self, comp):
 		# na = self.a - comp.a
