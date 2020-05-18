@@ -1,4 +1,4 @@
-from math import floor
+from math import floor, sqrt
 
 class Quaternion:
 
@@ -58,6 +58,9 @@ class Quaternion:
 			return Quaternion(na, nb, nc, nd)
 		else:
 			raise ZeroDivisionError("division by zero")
+	
+	def norm(self):
+		return sqrt( self.a ** 2 + self.b ** 2 + self.c ** 2 + self.d ** 2 )
 	
 	def __mul__(self, comp):
 		return self.mul(comp)
