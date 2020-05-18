@@ -64,7 +64,18 @@ class Quaternion:
 	
 	def conj(self):
 		return Quaternion(self.a, -1*self.b, -1*self.c, -1*self.d)
+	
+	def unit(self):
+		norm = self.norm()
 		
+		return Quaternion(self.a / norm, self.b / norm, self.c / norm, self.d / norm)
+	
+	def inverse(self):
+		norm_2 = self.norm() ** 2
+		conj = self.conj()
+
+		return Quaternion(conj.a / norm_2, conj.b / norm_2, conj.c / norm_2, conj.d / norm_2)
+
 	def __mul__(self, comp):
 		return self.mul(comp)
 	
@@ -131,4 +142,4 @@ class Quaternion:
 		return f"Quaternion({self.a}, {self.b}, {self.c}, {self.d})"
 
 	def __bool__(self):
-		return (self.a != 0) or (self.b != 0) or (self.c != 0) or (self.d != 0)		
+		return (self.a != 0) or (self.b != 0) or (self.c != 0) or (self.d != 0)
