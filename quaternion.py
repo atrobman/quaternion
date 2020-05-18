@@ -127,16 +127,10 @@ class Quaternion:
 
 	def pow(self, x):
 
-		if type(x) is not int and type(x) is not float:
-			raise TypeError(f'Expected type={type(0)} or type={type(0.0)} but recieved type={type(x)}')
-		
-		v = Quaternion(0, self.b, self.c, self.d)
-		
-		n = v.unit()
-		phi = acos(self.a / self.norm())
+		if type(x) is not int and type(x) is not float and type(x) is not Quaternion:
+			raise TypeError(f'Expected type={type(0)} or type={type(0.0)} or type={type(self)} but recieved type={type(x)}')
 
-		exponent = n * x * phi
-		return exponent.exp() * (self.norm() ** x)
+		return (self.ln() * x).exp()
 
 	def __mul__(self, comp):
 		return self.mul(comp)
