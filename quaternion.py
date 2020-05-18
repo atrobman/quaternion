@@ -1,4 +1,4 @@
-from math import cos, sin, exp, log, atan2
+from math import floor
 
 class Quaternion:
 
@@ -21,7 +21,7 @@ class Quaternion:
 		   (a1*c2 - b1*d2 + c1*a2 + d1*b2) * j +
 		   (a1*d2 + b1*c2 - c1*b2 + d1*a2) * k
 		"""
-		na = self.a * comp.a - self.b * comp.b - self.c * comp.c - self.d - comp.d
+		na = self.a * comp.a - self.b * comp.b - self.c * comp.c - self.d * comp.d
 		nb = self.a * comp.b + self.b * comp.a + self.c * comp.d - self.d * comp.c
 		nc = self.a * comp.c - self.b * comp.d + self.c * comp.a + self.d * comp.b
 		nd = self.a * comp.d + self.b * comp.c - self.c * comp.b + self.d * comp.a
@@ -50,29 +50,61 @@ class Quaternion:
 		denom = comp.a ** 2 + comp.b ** 2 + comp.c ** 2 + comp.d ** 2
 
 		if denom != 0:
-			na = (self.a * comp.a + self.b * comp.b + self.c * comp.c + self.d*comp.d) / denom
-			nb = (self.a * comp.b - self.b * comp.a - self.c * comp.d + self.d*comp.c) / denom
-			nc = (self.a * comp.c + self.b * comp.d - self.c * comp.a - self.d*comp.b) / denom
-			nd = (self.a * comp.d - self.b * comp.c + self.c * comp.b - self.d*comp.a) / denom
+			na = (comp.a * self.a + comp.b * self.b + comp.c * self.c + comp.d * self.d) / denom
+			nb = (comp.a * self.b - comp.b * self.a - comp.c * self.d + comp.d * self.c) / denom
+			nc = (comp.a * self.c + comp.b * self.d - comp.c * self.a - comp.d * self.b) / denom
+			nd = (comp.a * self.d - comp.b * self.c + comp.c * self.b - comp.d * self.a) / denom
 
 			return Quaternion(na, nb, nc, nd)
 		else:
 			raise ZeroDivisionError("division by zero")
+	
+	def __mul__(self, comp):
+		return self.mul(comp)
+	
+	def __add__(self, comp):
+		return self.add(comp)
+
+	def __sub__(self, comp):
+		return self.sub(comp)
+
+	def __truediv__(self, comp):
+		return self.div(comp)
+	
+	def __floordiv__(self, comp):
+		newQ = self.div(comp)
+
+		newQ.a = floor(newQ.a)
+		newQ.b = floor(newQ.b)
+		newQ.c = floor(newQ.c)
+		newQ.d = floor(newQ.d)
+
+		return newQ
 
 	def __str__(self):
 		msg = ""
 		if self.a != 0:
 			msg += f"{self.a}"
 		
+		if self.b != 0:
+			if msg == "":
+				msg += f"{self.b}*i"
+			else:
+				
+				if self.b > 0:
+					msg += f" + {self.b}*i"
+				else:
+					msg += f" - {self.b*-1}*i"
+
 		if self.c != 0:
 			if msg == "":
 				msg += f"{self.c}*j"
 			else:
 				
 				if self.c > 0:
-					msg += f"+ {self.c}*j"
+					msg += f" + {self.c}*j"
 				else:
-					msg += f"- {self.c*-1}*j"
+					msg += f" - {self.c*-1}*j"
 		
 		if self.d != 0:
 			if msg == "":
@@ -80,12 +112,17 @@ class Quaternion:
 			else:
 				
 				if self.d > 0:
-					msg += f"+ {self.d}*k"
+					msg += f" + {self.d}*k"
 				else:
-					msg += f"- {self.d*-1}*k"
+					msg += f" - {self.d*-1}*k"
 		
 		elif msg == "":
 			msg = "0"
 		
 		return msg
-		
+
+	def __repr__(self):
+		return f"Quaternion({self.a}, {self.b}, {self.c}, {self.d})"
+
+	def __bool__(self):
+		return (self.a != 0) or (self.b != 0) or (self.c != 0) or (self.d != 0)		
