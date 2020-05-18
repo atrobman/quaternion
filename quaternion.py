@@ -62,6 +62,9 @@ class Quaternion:
 	def norm(self):
 		return sqrt( self.a ** 2 + self.b ** 2 + self.c ** 2 + self.d ** 2 )
 	
+	def conj(self):
+		return Quaternion(self.a, -1*self.b, -1*self.c, -1*self.d)
+		
 	def __mul__(self, comp):
 		return self.mul(comp)
 	
