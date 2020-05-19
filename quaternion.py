@@ -21,9 +21,9 @@ class Quaternion:
 				d1*a2*k + d1*b2*k*i + d1*b2*j*k + d1*d2*k^2 =
 
 				a1*a2 - b1*b2 - c1*c2 - d1*d2 +
-			(a1*b2 + b1*a2 + c1*d2 - d1*c2) * i +
-			(a1*c2 - b1*d2 + c1*a2 + d1*b2) * j +
-			(a1*d2 + b1*c2 - c1*b2 + d1*a2) * k
+				(a1*b2 + b1*a2 + c1*d2 - d1*c2) * i +
+				(a1*c2 - b1*d2 + c1*a2 + d1*b2) * j +
+				(a1*d2 + b1*c2 - c1*b2 + d1*a2) * k
 			"""
 			na = self.a * comp.a - self.b * comp.b - self.c * comp.c - self.d * comp.d
 			nb = self.a * comp.b + self.b * comp.a + self.c * comp.d - self.d * comp.c
